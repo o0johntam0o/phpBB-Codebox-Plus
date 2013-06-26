@@ -1,0 +1,27 @@
+<!-- INCLUDE overall_header.html -->
+
+<form action="{S_CODE_DOWNLOADER_ACTION}" method="post">
+<table class="tablebg" width="100%" cellspacing="1">
+	<tr>
+		<th colspan="2">{L_CODEBOX_PLUS_CONFIRM}</th>
+	</tr>
+	<!-- IF CAPTCHA_TEMPLATE and S_CONFIRM_CODE -->
+		<!-- DEFINE $CAPTCHA_TAB_INDEX = 1 -->
+		<!-- INCLUDE {CAPTCHA_TEMPLATE} -->
+	<!-- ENDIF -->
+	<tr>
+		<td colspan="2" class="cat" align="center">
+			<input type="submit" name="submit" tabindex="2" value="{L_SUBMIT}" class="btnmain" />
+		</td>
+	</tr>
+</table>
+{S_FORM_TOKEN}
+</form>
+
+<br clear="all" />
+
+<!-- INCLUDE breadcrumbs.html -->
+
+<br clear="all" />
+
+<!-- INCLUDE overall_footer.html -->

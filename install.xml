@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml-stylesheet type="text/xsl" href="modx.prosilver.en.xsl"?>
+<!--For security purposes, please check: https
+://www.phpbb.com/mods/ for the latest version of this MOD. Although MODs are checked before being allowed in the MODs Database there is no guarantee that there are no security problems within the MOD. No support will be given for MODs not found within the MODs Database which can be found at https://www.phpbb.com/mods/-->
+<mod xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://www.phpbb.com/mods/xml/modx-1.2.6.xsd">
+	<header>
+		<license><![CDATA[http://opensource.org/licenses/gpl-license.php GNU General Public License v2]]></license>
+		
+		<title lang="en"><![CDATA[Codebox Plus]]></title>
+		
+		<description lang="en"><![CDATA[Codebox Plus alow you to: expand/collapse code block, downloading code contents, syntax highlighting 200+ programming languages (using GeSHi)]]></description>
+		
+		<author-notes lang="en"><![CDATA[FOR SECURITY PURPOSE, PLEASE DON'T PUT ANY PRIVATE INFOMATION INTO THE BBCODE [CODE][/CODE]
+		Usage:
+		[CODE={language} file={filename}]{code}[/CODE] (with specified filename and language)
+		[CODE={language}]{code}[/CODE] (without filename, default filename is "Untitled.txt")
+		[CODE file={filename}]{code}[/CODE] (without language, default language is "Plain text")
+		[CODE]{code}[/CODE] (using default filename - Untitled.txt and default language - Plain text)
+		
+		{language} is as the same with the filename of the language file (in root/includes/geshi/geshi/)
+		
+		To update the GeSHi parser, just replace the folder ./includes/geshi/ with the new one (current version is 1.0.8.11).
+		I do not own any files under the folder root/includes/geshi/. More information about the authors can be found at http://qbnz.com/highlighter/]]></author-notes>
+		
+		<author-group>
+			<author>
+				<username><![CDATA[o0johntam0o]]></username>
+				<email><![CDATA[o0johntam0o@gmail.com]]></email>
+			</author>
+		</author-group>
+		
+		<mod-version>1.1.1</mod-version>
+		
+		<installation>
+			<level>easy</level>
+			<time>600</time>
+			<target-version>3.0.11</target-version>
+		</installation>
+		
+		<history>
+			<entry>
+				<date>2013-03-22</date>
+				<rev-version>1.1.1</rev-version>
+				<changelog lang="en">
+					<change><![CDATA[Improve performance]]></change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2013-03-20</date>
+				<rev-version>1.1.0</rev-version>
+				<changelog lang="en">
+					<change><![CDATA[Version 1.1.0 released with ACP functions]]></change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2012-12-30</date>
+				<rev-version>1.0.3</rev-version>
+				<changelog lang="en">
+					<change><![CDATA[Add CAPTCHA function]]></change>
+					<change><![CDATA[100% xHTML valid]]></change>
+					<change><![CDATA[Correct links to the downloader (in signatures, pm,...)]]></change>
+					<change><![CDATA[Other minor changes]]></change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2012-11-20</date>
+				<rev-version>1.0.2</rev-version>
+				<changelog lang="en">
+					<change><![CDATA[Correct some errors]]></change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2012-10-25</date>
+				<rev-version>1.0.0</rev-version>
+				<changelog lang="en">
+					<change><![CDATA[Starting project (phpBB 3.0.11)]]></change>
+				</changelog>
+			</entry>
+		</history>
+		
+		<link-group>
+			<link type="template" href="contrib/subsilver2.xml" lang="en">SubSilver2</link>
+			<link type="template" href="contrib/absolution.xml" lang="en">Absolution</link>
+			<link type="language" href="contrib/vi.xml" lang="en">Vietnamese</link>
+		</link-group>
+	</header>
+	
+	<action-group>
+		<copy>
+			<file from="root/code_downloader.php" to="code_downloader.php" />
+			<file from="root/install_codebox_plus.php" to="install_codebox_plus.php" />
+			<file from="root/adm/style/acp_codebox_plus.html" to="adm/style/acp_codebox_plus.html" />
+			<file from="root/includes/acp/acp_codebox_plus.php" to="includes/acp/acp_codebox_plus.php" />
+			<file from="root/includes/acp/info/acp_codebox_plus.php" to="includes/acp/info/acp_codebox_plus.php" />
+			<file from="root/includes/geshi/*.*" to="includes/geshi/*.*" />
+			<file from="root/includes/hooks/hook_codebox_plus.php" to="includes/hooks/hook_codebox_plus.php" />
+			<file from="root/language/en/mods/codebox_plus_lang.php" to="language/en/mods/codebox_plus_lang.php" />
+			<file from="root/language/en/mods/info_acp_codebox_plus.php" to="language/en/mods/info_acp_codebox_plus.php" />
+			<file from="root/styles/prosilver/template/mods/code_downloader.html" to="styles/prosilver/template/mods/code_downloader.html" />
+			<file from="root/styles/prosilver/template/mods/codebox_plus_buttons.html" to="styles/prosilver/template/mods/codebox_plus_buttons.html" />
+			<file from="root/umil/*.*" to="umil/*.*" />
+		</copy>
+		
+		<open src="includes/bbcode.php">
+			<edit>
+				<find><![CDATA[							'#\[code(?:=([a-z]+))?:$uid\](.*?)\[/code:$uid\]#ise'	=> "\$this->bbcode_second_pass_code('\$1', '\$2')",]]></find>
+				<action type="replace-with"><![CDATA[							/* CODEBOX PLUS - BEGIN */
+							//'#\[code(?:=([a-z]+))?:$uid\](.*?)\[/code:$uid\]#ise'	=> "\$this->bbcode_second_pass_code('\$1', '\$2')",
+							'#\[code(?:=([a-z0-9_-]+))?(?: file=(.*?))?:$uid\](.*?)\[/code:$uid\]#ise'	=> "\$this->bbcode_second_pass_codebox('\$1', '\$3', '\$2')",
+							/* CODEBOX PLUS - END */]]></action>
+			</edit>
+			<edit>
+				<find><![CDATA[}
+
+?>]]></find>
+				<action type="before-add"><![CDATA[	/* CODEBOX PLUS - BEGIN */
+	function bbcode_second_pass_codebox($type, $code, $file)
+	{
+		global $phpbb_root_path, $config, $user;
+		
+		if (isset($config['codebox_plus_enable']) && $config['codebox_plus_enable'] == 1)
+		{
+			$cp_current_style = $user->theme['template_path'];
+			
+			if (!@file_exists($phpbb_root_path . 'styles/' . $user->theme['template_path'] . '/template/bbcode.html'))
+			{
+				$cp_current_style = $user->theme['template_inherit_path'];
+			}
+			
+			switch ($cp_current_style)
+			{
+				case 'subsilver2':
+					$tpl_codebox_plus_close = '</div><div class="codetitle" style="text-align:right; margin:-10px 5px 10px 5px;"><a href="http://qbnz.com/highlighter/">GeSHi</a> <strong title="phpBB Codebox Plus">&copy;</strong></div></div>';
+					
+					if (isset($config['codebox_plus_download']) && $config['codebox_plus_download'] == 1)
+					{
+						$tpl_codebox_plus_open = '<div><div class="codetitle"><b>{L_CODE}:</b> <a href="#" onclick="ShowHideCodebox(this); return false;">[{L_CODEBOX_PLUS_EXPAND}/{L_CODEBOX_PLUS_COLLAPSE}]</a> <a class="CodeboxPlus_Censor_123_abc_xyz_890" href="#">[{L_CODEBOX_PLUS_DOWNLOAD}]</a> ({FILE_NAME})</div><div class="codecontent">';
+					}
+					else
+					{
+						$tpl_codebox_plus_open = '<div><div class="codetitle"><b>{L_CODE}:</b> <a href="#" onclick="ShowHideCodebox(this); return false;">[{L_CODEBOX_PLUS_EXPAND}/{L_CODEBOX_PLUS_COLLAPSE}]</a></div><div class="codecontent">';
+					}
+					
+				break;
+				
+				case 'absolution':
+					$tpl_codebox_plus_close = '</div><div style="text-align:right;"><a href="http://qbnz.com/highlighter/">GeSHi</a> <strong title="phpBB Codebox Plus">&copy;</strong></div></div>';
+					
+					if (isset($config['codebox_plus_download']) && $config['codebox_plus_download'] == 1)
+					{
+						$tpl_codebox_plus_open = '<div class="vtcodebox"><div class="vtcodeselect">{L_CODE}: <a href="#" onclick="selectCodebox(this); return false;">[{L_SELECT_ALL_CODE}]</a> <a href="#" onclick="ShowHideCodebox(this); return false;">[{L_CODEBOX_PLUS_EXPAND}/{L_CODEBOX_PLUS_COLLAPSE}]</a> <a class="CodeboxPlus_Censor_123_abc_xyz_890" href="#">[{L_CODEBOX_PLUS_DOWNLOAD}]</a> ({FILE_NAME})</div><div class="vtcodeinner">';
+					}
+					else
+					{
+						$tpl_codebox_plus_open = '<div class="vtcodebox"><div class="vtcodeselect">{L_CODE}: <a href="#" onclick="selectCodebox(this); return false;">[{L_SELECT_ALL_CODE}]</a> <a href="#" onclick="ShowHideCodebox(this); return false;">[{L_CODEBOX_PLUS_EXPAND}/{L_CODEBOX_PLUS_COLLAPSE}]</a></div><div class="vtcodeinner">';
+					}
+					
+				break;
+				
+				/*
+				case 'your_template_path':
+					$tpl_codebox_plus_close = '';
+					
+					if (isset($config['codebox_plus_download']) && $config['codebox_plus_download'] == 1)
+					{
+						$tpl_codebox_plus_open = '';
+					}
+					else
+					{
+						$tpl_codebox_plus_open = '';
+					}
+					
+				break;
+				*/
+				
+				default:
+					// ProSilver by default...
+					$tpl_codebox_plus_close = '</dd><dd style="text-align:right; border-top:solid 1px #cccccc;"><a href="http://qbnz.com/highlighter/">GeSHi</a> <strong title="phpBB Codebox Plus">&copy;</strong></dd></dl>';
+					
+					if (isset($config['codebox_plus_download']) && $config['codebox_plus_download'] == 1)
+					{
+						$tpl_codebox_plus_open = '<dl class="codebox"><dt>{L_CODE}: <a href="#" onclick="selectCodebox(this); return false;">[{L_SELECT_ALL_CODE}]</a> <a href="#" onclick="ShowHideCodebox(this); return false;">[{L_CODEBOX_PLUS_EXPAND}/{L_CODEBOX_PLUS_COLLAPSE}]</a> <a class="CodeboxPlus_Censor_123_abc_xyz_890" href="#">[{L_CODEBOX_PLUS_DOWNLOAD}]</a> ({FILE_NAME})</dt><dd>';
+					}
+					else
+					{
+						$tpl_codebox_plus_open = '<dl class="codebox"><dt>{L_CODE}: <a href="#" onclick="selectCodebox(this); return false;">[{L_SELECT_ALL_CODE}]</a> <a href="#" onclick="ShowHideCodebox(this); return false;">[{L_CODEBOX_PLUS_EXPAND}/{L_CODEBOX_PLUS_COLLAPSE}]</a></dt><dd>';
+					}
+					
+				break;
+			}
+		}
+		else
+		{
+			return $this->bbcode_second_pass_code($type, $code);
+		}
+		
+		$file = (strlen($file) == 0) ? $user->lang['CODEBOX_PLUS_DEFAULT_FILENAME'] : $file;
+		
+		// when using the /e modifier, preg_replace slashes double-quotes but does not
+		// seem to slash anything else
+		$code = str_replace('\"', '"', $code);
+		
+		if (!class_exists("GeSHi"))
+		{
+			include($phpbb_root_path . 'includes/geshi/geshi.php');
+		}
+		
+		if (strlen($type) != 0)
+		{
+			if (strlen($type) == 0)
+			{
+				$type = "text";
+			}
+			
+			// Remove newline at the beginning
+			if (!empty($code) && $code[0] == "\n")
+			{
+				$code = substr($code, 1);
+			}
+			
+			// Some characters was encoded before. We have to decode it
+			$str_from = array('&lt;', '&gt;', '&#91;', '&#93;', '&#46;', '&#58;', '&#058;', '&#39;', '&#039;', '&quot;', '&amp;');
+			$str_to = array('<', '>', '[', ']', '.', ':', ':', "'", "'", '"', '&');
+			$code = str_replace($str_from, $str_to, $code);
+			// GeSHi
+			$geshi = new GeSHi($code, $type);
+			$geshi->set_header_type(GESHI_HEADER_DIV);
+			$geshi->enable_line_numbers(GESHI_NORMAL_LINE_NUMBERS);
+			$geshi->set_line_style('margin-left:20px;', false);
+			
+			if ($cp_current_style == 'subsilver2')
+			{
+				$geshi->set_code_style('border-bottom: dotted 1px #cccccc; font-size:200%;', false);
+			}
+			else
+			{
+				$geshi->set_code_style('border-bottom: dotted 1px #cccccc; font-size:100%;', false);
+			}
+			
+			$code = str_replace("\n", "", $geshi->parse_code());
+		}
+		else
+		{
+			$code = str_replace("\t", '&nbsp; &nbsp;', $code);
+			$code = str_replace('  ', '&nbsp; ', $code);
+			$code = str_replace('  ', ' &nbsp;', $code);
+			$code = str_replace("\n ", "\n&nbsp;", $code);
+
+			// Keep space at the beginning
+			if (!empty($code) && $code[0] == ' ')
+			{
+				$code = '&nbsp;' . substr($code, 1);
+			}
+
+			// Remove newline at the beginning
+			if (!empty($code) && $code[0] == "\n")
+			{
+				$code = substr($code, 1);
+			}
+		}
+		
+		$str_from = array(
+			'{L_CODE}',
+			'{L_SELECT_ALL_CODE}',
+			'{L_CODEBOX_PLUS_EXPAND}',
+			'{L_CODEBOX_PLUS_COLLAPSE}',
+			'{L_CODEBOX_PLUS_DOWNLOAD}',
+			'{FORUM_URL}',
+			'{FILE_NAME}',
+		);
+		$str_to = array(
+			$user->lang['CODEBOX_PLUS_CODE'],
+			$user->lang['SELECT_ALL_CODE'],
+			$user->lang['CODEBOX_PLUS_EXPAND'],
+			$user->lang['CODEBOX_PLUS_COLLAPSE'],
+			$user->lang['CODEBOX_PLUS_DOWNLOAD'],
+			generate_board_url(),
+			$file,
+		);
+		
+		$code = str_replace($str_from, $str_to, $tpl_codebox_plus_open) . $code . $tpl_codebox_plus_close;
+
+		return $code;
+	}
+	/* CODEBOX PLUS - END */]]></action>
+			</edit>
+		</open>
+		
+		<open src="includes/message_parser.php">
+			<edit>
+				<find><![CDATA[			'code'			=> array('bbcode_id' => 8,	'regexp' => array('#\[code(?:=([a-z]+))?\](.+\[/code\])#uise' => "\$this->bbcode_code('\$1', '\$2')")),]]></find>
+				<action type="replace-with"><![CDATA[			/* CODEBOX PLUS - BEGIN */
+			//'code'			=> array('bbcode_id' => 8,	'regexp' => array('#\[code(?:=([a-z]+))?\](.+\[/code\])#uise' => "\$this->bbcode_code('\$1', '\$2')")),
+			'code'			=> array('bbcode_id' => 8,	'regexp' => array('#\[code(?:=([a-z0-9_-]+))?(?: file=(.*?))?\](.+\[/code\])#uise' => "\$this->bbcode_codebox('\$1', '\$3', '\$2')")),
+			/* CODEBOX PLUS - END */]]></action>
+			</edit>
+			<edit>
+				<find><![CDATA[	/**
+	* Parse code text from code tag
+	* @access private
+	*/]]></find>
+				<action type="before-add"><![CDATA[	/* CODEBOX PLUS - BEGIN */
+	function bbcode_parse_codebox($stx, &$code, $file)
+	{
+		global $config;
+		
+		if (isset($config['codebox_plus_enable']) && $config['codebox_plus_enable'] == 0)
+		{
+			return $this->bbcode_parse_code($stx, $code);
+		}
+		
+		// $this->bbcode_specialchars() ----ENCODE---- < > [ ] . :
+		// In order to NOT parse any other bbcodes and links
+		$code = $this->bbcode_specialchars($code);
+
+		if (strlen($stx) > 0)
+		{
+			if (strlen($file) > 0)
+			{
+				return '[code=' . $stx . ' file=' . $file . ':' . $this->bbcode_uid . ']' . $code . '[/code:' . $this->bbcode_uid . ']';
+			}
+			else
+			{
+				return '[code=' . $stx . ':' . $this->bbcode_uid . ']' . $code . '[/code:' . $this->bbcode_uid . ']';
+			}
+		}
+		else
+		{
+			if (strlen($file) > 0)
+			{
+				return '[code file=' . $file . ':' . $this->bbcode_uid . ']' . $code . '[/code:' . $this->bbcode_uid . ']';
+			}
+			else
+			{
+				return '[code:' . $this->bbcode_uid . ']' . $code . '[/code:' . $this->bbcode_uid . ']';
+			}
+		}
+	}
+
+	function bbcode_codebox($stx, $in, $file)
+	{
+		global $config;
+		
+		if (isset($config['codebox_plus_enable']) && $config['codebox_plus_enable'] == 0)
+		{
+			return $this->bbcode_code('', $in);
+		}
+		
+		if (!$this->check_bbcode('code', $in))
+		{
+			return $in;
+		}
+
+		// We remove the hardcoded elements from the code block here because it is not used in code blocks
+		// Having it here saves us one preg_replace per message containing [code] blocks
+		// Additionally, magic url parsing should go after parsing bbcodes, but for safety those are stripped out too...
+		$htm_match = get_preg_expression('bbcode_htm');
+		unset($htm_match[4], $htm_match[5]);
+		$htm_replace = array('\1', '\1', '\2', '\1');
+
+		$out = $code_block = '';
+		$open = 1;
+
+		while ($in)
+		{
+			// Determine position and tag length of next code block
+			preg_match('#(.*?)(\[code(?:=([a-z0-9_-]+))?(?: file=(.*?))?\])(.+)#is', $in, $buffer);
+			$pos = (isset($buffer[1])) ? strlen($buffer[1]) : false;
+			$tag_length = (isset($buffer[2])) ? strlen($buffer[2]) : false;
+
+			// Determine position of ending code tag
+			$pos2 = stripos($in, '[/code]');
+
+			// Which is the next block, ending code or code block
+			if ($pos !== false && $pos < $pos2)
+			{
+				// Open new block
+				if (!$open)
+				{
+					$out .= substr($in, 0, $pos);
+					$in = substr($in, $pos);
+					$stx = (isset($buffer[3])) ? $buffer[3] : '';
+					$file = (isset($buffer[4])) ? $buffer[4] : '';
+					$code_block = '';
+				}
+				else
+				{
+					// Already opened block, just append to the current block
+					$code_block .= substr($in, 0, $pos) . ((isset($buffer[2])) ? $buffer[2] : '');
+					$in = substr($in, $pos);
+				}
+
+				$in = substr($in, $tag_length);
+				$open++;
+			}
+			else
+			{
+				// Close the block
+				if ($open == 1)
+				{
+					$code_block .= substr($in, 0, $pos2);
+					$code_block = preg_replace($htm_match, $htm_replace, $code_block);
+
+					// Parse this code block
+					$out .= $this->bbcode_parse_codebox($stx, $code_block, $file);
+					$code_block = '';
+					$open--;
+				}
+				else if ($open)
+				{
+					// Close one open tag... add to the current code block
+					$code_block .= substr($in, 0, $pos2 + 7);
+					$open--;
+				}
+				else
+				{
+					// end code without opening code... will be always outside code block
+					$out .= substr($in, 0, $pos2 + 7);
+				}
+
+				$in = substr($in, $pos2 + 7);
+			}
+		}
+
+		// if now $code_block has contents we need to parse the remaining code while removing the last closing tag to match up.
+		if ($code_block)
+		{
+			$code_block = substr($code_block, 0, -7);
+			$code_block = preg_replace($htm_match, $htm_replace, $code_block);
+
+			$out .= $this->bbcode_parse_codebox($stx, $code_block, $file);
+		}
+
+		return $out;
+	}
+	/* CODEBOX PLUS - END */]]></action>
+			</edit>
+		</open>
+		
+		<open src="language/en/common.php">
+			<edit>
+				<find><![CDATA[?>]]></find>
+				<action type="before-add"><![CDATA[/* CODEBOX PLUS - BEGIN */
+$lang = array_merge($lang, array(
+	'CODEBOX_PLUS_CODE'						=> 'Code',
+	'CODEBOX_PLUS_DOWNLOAD'					=> 'Download',
+	'CODEBOX_PLUS_EXPAND'					=> 'Expand',
+	'CODEBOX_PLUS_COLLAPSE'					=> 'Collapse',
+	'CODEBOX_PLUS_SELECT'					=> 'Select code',
+	'CODEBOX_PLUS_DEFAULT_FILENAME'			=> 'Untitled.txt',
+));
+/* CODEBOX PLUS - END */]]></action>
+			</edit>
+		</open>
+		
+		<open src="styles/prosilver/template/forum_fn.js">
+			<edit>
+				<find><![CDATA[/**
+* phpBB3 forum functions
+*/]]></find>
+				<action type="after-add"><![CDATA[/* CODEBOX PLUS - BEGIN */
+function ShowHideCodebox(a)
+{
+	// Get ID of code block
+	var e = a.parentNode.parentNode.getElementsByTagName('DD')[0];
+	if (e.style.display == 'none')
+	{
+		e.style.display = 'inline';
+	}
+	else
+	{
+		e.style.display = 'none';
+	}
+}
+function selectCodebox(a)
+{
+	// Get ID of code block
+	var e = a.parentNode.parentNode.getElementsByTagName('DD')[0];
+
+	// Not IE and IE9+
+	if (window.getSelection)
+	{
+		var s = window.getSelection();
+		// Safari
+		if (s.setBaseAndExtent)
+		{
+			s.setBaseAndExtent(e, 0, e, e.innerText.length - 1);
+		}
+		// Firefox and Opera
+		else
+		{
+			// workaround for bug # 42885
+			if (window.opera && e.innerHTML.substring(e.innerHTML.length - 4) == '<BR>')
+			{
+				e.innerHTML = e.innerHTML + '&nbsp;';
+			}
+
+			var r = document.createRange();
+			r.selectNodeContents(e);
+			s.removeAllRanges();
+			s.addRange(r);
+		}
+	}
+	// Some older browsers
+	else if (document.getSelection)
+	{
+		var s = document.getSelection();
+		var r = document.createRange();
+		r.selectNodeContents(e);
+		s.removeAllRanges();
+		s.addRange(r);
+	}
+	// IE
+	else if (document.selection)
+	{
+		var r = document.body.createTextRange();
+		r.moveToElementText(e);
+		r.select();
+	}
+}
+/* CODEBOX PLUS - END */]]></action>
+			</edit>
+		</open>
+		
+		<open src="styles/prosilver/template/posting_buttons.html">
+			<edit>
+				<find><![CDATA[	<input type="button" class="button2" accesskey="c" name="addbbcode8" value="Code" style="width: 40px" onclick="bbstyle(8)" title="{L_BBCODE_C_HELP}" />]]></find>
+				<action type="after-add"><![CDATA[<!-- INCLUDE mods/codebox_plus_buttons.html -->]]></action>
+			</edit>
+		</open>
+		
+		<php-installer><![CDATA[install_codebox_plus.php]]></php-installer>
+		<diy-instructions lang="en"><![CDATA[Do not forget to delete or rename the file "root/install_codebox_plus.php" after installation (For Un-Installing, re-upload it).
+Purge the cache and go to ACP -> .MODS -> Codebox Plus to setting up your Codebox Plus.]]></diy-instructions>
+	</action-group>
+</mod>

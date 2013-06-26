@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml-stylesheet type="text/xsl" href="modx.prosilver.en.xsl"?>
+<!--For security purposes, please check: https
+://www.phpbb.com/mods/ for the latest version of this MOD. Although MODs are checked before being allowed in the MODs Database there is no guarantee that there are no security problems within the MOD. No support will be given for MODs not found within the MODs Database which can be found at https://www.phpbb.com/mods/-->
+<mod xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://www.phpbb.com/mods/xml/modx-1.2.6.xsd">
+	<header>
+		<license><![CDATA[http://opensource.org/licenses/gpl-license.php GNU General Public License v2]]></license>
+		
+		<title lang="en"><![CDATA[Codebox Plus]]></title>
+		
+		<description lang="en"><![CDATA[Codebox Plus alow you to: expand/collapse code block, downloading code contents, syntax highlighting 200+ programming languages (using GeSHi)]]></description>
+		
+		<author-notes lang="en"><![CDATA[FOR SECURITY PURPOSE, PLEASE DON'T PUT ANY PRIVATE INFOMATION INTO THE BBCODE [CODE][/CODE]
+		Usage:
+		[CODE={language} file={filename}]{code}[/CODE] (with specified filename and language)
+		[CODE={language}]{code}[/CODE] (without filename, default filename is "Untitled.txt")
+		[CODE file={filename}]{code}[/CODE] (without language, default language is "Plain text")
+		[CODE]{code}[/CODE] (using default filename - Untitled.txt and default language - Plain text)
+		
+		{language} is as the same with the filename of the language file (in root/includes/geshi/geshi/)
+		
+		To update the GeSHi parser, just replace the folder ./includes/geshi/ with the new one (current version is 1.0.8.11).
+		I do not own any files under the folder root/includes/geshi/. More information about the authors can be found at http://qbnz.com/highlighter/]]></author-notes>
+		
+		<author-group>
+			<author>
+				<username><![CDATA[o0johntam0o]]></username>
+				<email><![CDATA[o0johntam0o@gmail.com]]></email>
+			</author>
+		</author-group>
+		
+		<mod-version>1.1.1</mod-version>
+		
+		<installation>
+			<level>easy</level>
+			<time>600</time>
+			<target-version>3.0.11</target-version>
+		</installation>
+		
+		<history>
+			<entry>
+				<date>2013-03-22</date>
+				<rev-version>1.1.1</rev-version>
+				<changelog lang="en">
+					<change><![CDATA[Improve performance]]></change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2013-03-20</date>
+				<rev-version>1.1.0</rev-version>
+				<changelog lang="en">
+					<change><![CDATA[Version 1.1.0 released with ACP functions]]></change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2012-12-30</date>
+				<rev-version>1.0.3</rev-version>
+				<changelog lang="en">
+					<change><![CDATA[Add CAPTCHA function]]></change>
+					<change><![CDATA[100% xHTML valid]]></change>
+					<change><![CDATA[Correct links to the downloader (in signatures, pm,...)]]></change>
+					<change><![CDATA[Other minor changes]]></change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2012-11-20</date>
+				<rev-version>1.0.2</rev-version>
+				<changelog lang="en">
+					<change><![CDATA[Correct some errors]]></change>
+				</changelog>
+			</entry>
+			<entry>
+				<date>2012-10-25</date>
+				<rev-version>1.0.0</rev-version>
+				<changelog lang="en">
+					<change><![CDATA[Starting project (phpBB 3.0.11)]]></change>
+				</changelog>
+			</entry>
+		</history>
+		
+		<link-group>
+			<link type="parent" href="../install.xml" lang="en">Main Install File</link>
+		</link-group>
+	</header>
+	
+	<action-group>
+		<copy>
+			<file from="root/styles/absolution/template/mods/code_downloader.html" to="styles/absolution/template/mods/code_downloader.html" />
+			<file from="root/styles/absolution/template/mods/codebox_plus_buttons.html" to="styles/absolution/template/mods/codebox_plus_buttons.html" />
+		</copy>
+		
+		<open src="styles/absolution/template/forum_fn.js">
+			<edit>
+				<find><![CDATA[/**
+* phpBB3 forum functions
+*/]]></find>
+				<action type="after-add"><![CDATA[/* CODEBOX PLUS - BEGIN */
+function ShowHideCodebox(a)
+{
+	// Get ID of code block
+	var e = a.parentNode.parentNode.getElementsByTagName('DIV')[1];
+	if (e.style.display == 'none')
+	{
+		e.style.display = 'block';
+	}
+	else
+	{
+		e.style.display = 'none';
+	}
+}
+function selectCodebox(a)
+{
+	// Get ID of code block
+	var e = a.parentNode.parentNode.getElementsByTagName('DIV')[1];
+
+	// Not IE and IE9+
+	if (window.getSelection)
+	{
+		var s = window.getSelection();
+		// Safari
+		if (s.setBaseAndExtent)
+		{
+			s.setBaseAndExtent(e, 0, e, e.innerText.length - 1);
+		}
+		// Firefox and Opera
+		else
+		{
+			// workaround for bug # 42885
+			if (window.opera && e.innerHTML.substring(e.innerHTML.length - 4) == '<BR>')
+			{
+				e.innerHTML = e.innerHTML + '&nbsp;';
+			}
+
+			var r = document.createRange();
+			r.selectNodeContents(e);
+			s.removeAllRanges();
+			s.addRange(r);
+		}
+	}
+	// Some older browsers
+	else if (document.getSelection)
+	{
+		var s = document.getSelection();
+		var r = document.createRange();
+		r.selectNodeContents(e);
+		s.removeAllRanges();
+		s.addRange(r);
+	}
+	// IE
+	else if (document.selection)
+	{
+		var r = document.body.createTextRange();
+		r.moveToElementText(e);
+		r.select();
+	}
+}
+/* CODEBOX PLUS - END */]]></action>
+			</edit>
+		</open>
+		
+		<open src="styles/absolution/template/posting_buttons.html">
+			<edit>
+				<find><![CDATA[	<input type="button" class="button2" accesskey="c" name="addbbcode8" value="Code" style="width: 40px" onclick="bbstyle(8)" title="{L_BBCODE_C_HELP}" />]]></find>
+				<action type="after-add"><![CDATA[<!-- INCLUDE mods/codebox_plus_buttons.html -->]]></action>
+			</edit>
+		</open>
+	</action-group>
+</mod>
