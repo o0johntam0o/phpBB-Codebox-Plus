@@ -5,11 +5,8 @@
 <mod xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://www.phpbb.com/mods/xml/modx-1.2.6.xsd">
 	<header>
 		<license><![CDATA[http://opensource.org/licenses/gpl-license.php GNU General Public License v2]]></license>
-		
 		<title lang="en"><![CDATA[Codebox Plus]]></title>
-		
 		<description lang="en"><![CDATA[Codebox Plus alow you to: expand/collapse code block, downloading code contents, syntax highlighting 200+ programming languages (using GeSHi)]]></description>
-		
 		<author-notes lang="en"><![CDATA[FOR SECURITY PURPOSE, PLEASE DON'T PUT ANY PRIVATE INFOMATION INTO THE BBCODE [CODE][/CODE]
 		Usage:
 		[CODE={language} file={filename}]{code}[/CODE] (with specified filename and language)
@@ -21,6 +18,7 @@
 		
 		To update the GeSHi parser, just replace the folder ./includes/geshi/ with the new one (current version is 1.0.8.11).
 		I do not own any files under the folder root/includes/geshi/. More information about the authors can be found at http://qbnz.com/highlighter/]]></author-notes>
+		<github><![CDATA[https://github.com/o0johntam0o/phpBB-Codebox-Plus]]></github>
 		
 		<author-group>
 			<author>
@@ -29,15 +27,23 @@
 			</author>
 		</author-group>
 		
-		<mod-version>1.1.1</mod-version>
+		<mod-version>1.1.2</mod-version>
 		
 		<installation>
 			<level>easy</level>
 			<time>600</time>
-			<target-version>3.0.11</target-version>
+			<target-version>3.0.12</target-version>
 		</installation>
 		
 		<history>
+			<entry>
+				<date>2013-11-05</date>
+				<rev-version>1.1.2</rev-version>
+				<changelog lang="en">
+					<change><![CDATA[Fix: Correct file extension]]></change>
+					<change><![CDATA[Add: Add more languages to the drop-down menu]]></change>
+				</changelog>
+			</entry>
 			<entry>
 				<date>2013-03-22</date>
 				<rev-version>1.1.1</rev-version>
@@ -99,7 +105,7 @@ $lang = array_merge($lang, array(
 	'CODEBOX_PLUS_EXPAND'					=> 'Mở rộng',
 	'CODEBOX_PLUS_COLLAPSE'					=> 'Thu hẹp',
 	'CODEBOX_PLUS_SELECT'					=> 'Chọn mã',
-	'CODEBOX_PLUS_DEFAULT_FILENAME'			=> 'Không tên.txt',
+	'CODEBOX_PLUS_DEFAULT_FILENAME'			=> 'Không tên',
 ));
 /* CODEBOX PLUS - END */]]></action>
 			</edit>

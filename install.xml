@@ -5,11 +5,8 @@
 <mod xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://www.phpbb.com/mods/xml/modx-1.2.6.xsd">
 	<header>
 		<license><![CDATA[http://opensource.org/licenses/gpl-license.php GNU General Public License v2]]></license>
-		
 		<title lang="en"><![CDATA[Codebox Plus]]></title>
-		
 		<description lang="en"><![CDATA[Codebox Plus alow you to: expand/collapse code block, downloading code contents, syntax highlighting 200+ programming languages (using GeSHi)]]></description>
-		
 		<author-notes lang="en"><![CDATA[FOR SECURITY PURPOSE, PLEASE DON'T PUT ANY PRIVATE INFOMATION INTO THE BBCODE [CODE][/CODE]
 		Usage:
 		[CODE={language} file={filename}]{code}[/CODE] (with specified filename and language)
@@ -21,6 +18,7 @@
 		
 		To update the GeSHi parser, just replace the folder ./includes/geshi/ with the new one (current version is 1.0.8.11).
 		I do not own any files under the folder root/includes/geshi/. More information about the authors can be found at http://qbnz.com/highlighter/]]></author-notes>
+		<github><![CDATA[https://github.com/o0johntam0o/phpBB-Codebox-Plus]]></github>
 		
 		<author-group>
 			<author>
@@ -29,15 +27,23 @@
 			</author>
 		</author-group>
 		
-		<mod-version>1.1.1</mod-version>
+		<mod-version>1.1.2</mod-version>
 		
 		<installation>
 			<level>easy</level>
 			<time>600</time>
-			<target-version>3.0.11</target-version>
+			<target-version>3.0.12</target-version>
 		</installation>
 		
 		<history>
+			<entry>
+				<date>2013-11-05</date>
+				<rev-version>1.1.2</rev-version>
+				<changelog lang="en">
+					<change><![CDATA[Fix: Correct file extension]]></change>
+					<change><![CDATA[Add: Add more languages to the drop-down menu]]></change>
+				</changelog>
+			</entry>
 			<entry>
 				<date>2013-03-22</date>
 				<rev-version>1.1.1</rev-version>
@@ -82,6 +88,7 @@
 			<link type="template" href="contrib/subsilver2.xml" lang="en">SubSilver2</link>
 			<link type="template" href="contrib/absolution.xml" lang="en">Absolution</link>
 			<link type="language" href="contrib/vi.xml" lang="en">Vietnamese</link>
+			<link type="contrib" href="contrib/update_111-112.xml" lang="en">Update: from 1.1.1 to 1.1.2</link>
 		</link-group>
 	</header>
 	
@@ -130,7 +137,7 @@
 			switch ($cp_current_style)
 			{
 				case 'subsilver2':
-					$tpl_codebox_plus_close = '</div><div class="codetitle" style="text-align:right; margin:-10px 5px 10px 5px;"><a href="http://qbnz.com/highlighter/">GeSHi</a> <strong title="phpBB Codebox Plus">&copy;</strong></div></div>';
+					$tpl_codebox_plus_close = '</div><div class="codetitle" style="text-align:right; margin:-10px 5px 10px 5px;"><a href="http://qbnz.com/highlighter/">GeSHi</a> &copy; <a href="https://www.phpbb.com/customise/db/mod/codebox_plus/">Codebox Plus</a></div></div>';
 					
 					if (isset($config['codebox_plus_download']) && $config['codebox_plus_download'] == 1)
 					{
@@ -144,7 +151,7 @@
 				break;
 				
 				case 'absolution':
-					$tpl_codebox_plus_close = '</div><div style="text-align:right;"><a href="http://qbnz.com/highlighter/">GeSHi</a> <strong title="phpBB Codebox Plus">&copy;</strong></div></div>';
+					$tpl_codebox_plus_close = '</div><div style="text-align:right;"><a href="http://qbnz.com/highlighter/">GeSHi</a> &copy; <a href="https://www.phpbb.com/customise/db/mod/codebox_plus/">Codebox Plus</a></div></div>';
 					
 					if (isset($config['codebox_plus_download']) && $config['codebox_plus_download'] == 1)
 					{
@@ -175,7 +182,7 @@
 				
 				default:
 					// ProSilver by default...
-					$tpl_codebox_plus_close = '</dd><dd style="text-align:right; border-top:solid 1px #cccccc;"><a href="http://qbnz.com/highlighter/">GeSHi</a> <strong title="phpBB Codebox Plus">&copy;</strong></dd></dl>';
+					$tpl_codebox_plus_close = '</dd><dd style="text-align:right; border-top:solid 1px #cccccc;"><a href="http://qbnz.com/highlighter/">GeSHi</a> &copy; <a href="https://www.phpbb.com/customise/db/mod/codebox_plus/">Codebox Plus</a></dd></dl>';
 					
 					if (isset($config['codebox_plus_download']) && $config['codebox_plus_download'] == 1)
 					{
@@ -447,7 +454,7 @@ $lang = array_merge($lang, array(
 	'CODEBOX_PLUS_EXPAND'					=> 'Expand',
 	'CODEBOX_PLUS_COLLAPSE'					=> 'Collapse',
 	'CODEBOX_PLUS_SELECT'					=> 'Select code',
-	'CODEBOX_PLUS_DEFAULT_FILENAME'			=> 'Untitled.txt',
+	'CODEBOX_PLUS_DEFAULT_FILENAME'			=> 'Untitled',
 ));
 /* CODEBOX PLUS - END */]]></action>
 			</edit>
@@ -530,7 +537,6 @@ function selectCodebox(a)
 		</open>
 		
 		<php-installer><![CDATA[install_codebox_plus.php]]></php-installer>
-		<diy-instructions lang="en"><![CDATA[Do not forget to delete or rename the file "root/install_codebox_plus.php" after installation (For Un-Installing, re-upload it).
-Purge the cache and go to ACP -> .MODS -> Codebox Plus to setting up your Codebox Plus.]]></diy-instructions>
+		<diy-instructions lang="en"><![CDATA[Delete the installer (install_codebox_plus.php) after the installation.]]></diy-instructions>
 	</action-group>
 </mod>
