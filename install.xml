@@ -214,11 +214,6 @@
 		
 		if (strlen($type) != 0)
 		{
-			if (strlen($type) == 0)
-			{
-				$type = "text";
-			}
-			
 			// Remove newline at the beginning
 			if (!empty($code) && $code[0] == "\n")
 			{
