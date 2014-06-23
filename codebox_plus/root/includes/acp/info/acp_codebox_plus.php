@@ -2,7 +2,7 @@
 /**
 *
 * @package Codebox Plus
-* @version 1.1.3 of 12.11.2013
+* @version 1.1.4 of 02.06.2014
 * @copyright (c) 2012 o0johntam0o - o0johntam0o@gmail.com
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
@@ -26,7 +26,7 @@ class acp_codebox_plus_info
 		return array(
 			'filename'	=> 'acp_codebox_plus',
 			'title'		=> 'CODEBOX_PLUS_TITLE_ACP',
-			'version'	=> '1.1.3',
+			'version'	=> '1.1.4',
 			'modes'		=> array(
 				'index'	=> array(
 					'title'			=> 'CODEBOX_PLUS_TITLE',

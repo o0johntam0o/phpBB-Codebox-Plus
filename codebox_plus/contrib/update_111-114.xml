@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml-stylesheet type="text/xsl" href="modx.prosilver.en.xsl"?>
+<!--For security purposes, please check: http
+://www.phpbb.com/mods/ for the latest version of this MOD. Although MODs are checked before being allowed in the MODs Database there is no guarantee that there are no security problems within the MOD. No support will be given for MODs not found within the MODs Database which can be found at http://www.phpbb.com/mods/-->
+<mod xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://www.phpbb.com/mods/xml/modx-1.2.6.xsd">
+	<header>
+		<license><![CDATA[http://opensource.org/licenses/gpl-license.php GNU General Public License v2]]></license>
+		<title lang="en"><![CDATA[Codebox Plus - Update v1.1.1 to v1.1.4]]></title>
+		<description lang="en"><![CDATA[Update instructions - v1.1.1 to v1.1.4]]></description>
+		<author-notes lang="en"><![CDATA[This update instructions applies to v1.1.1 only]]></author-notes>
+		<github><![CDATA[https://github.com/o0johntam0o/phpBB-Codebox-Plus]]></github>
+		
+		<author-group>
+			<author>
+				<username><![CDATA[o0johntam0o]]></username>
+				<email><![CDATA[o0johntam0o@gmail.com]]></email>
+			</author>
+		</author-group>
+
+		<mod-version>1.1.4</mod-version>
+
+		<installation>
+			<level>easy</level>
+			<time>600</time>
+			<target-version>3.0.12</target-version>
+		</installation>
+		
+		<link-group>
+			<link type="parent" href="../install.xml" lang="en">Main Install File</link>
+		</link-group>
+	</header>
+
+	<action-group>
+		<copy>
+			<file from="root/code_downloader.php" to="code_downloader.php" />
+			<file from="root/install_codebox_plus.php" to="install_codebox_plus.php" />
+			<file from="root/adm/style/acp_codebox_plus.html" to="adm/style/acp_codebox_plus.html" />
+			<file from="root/includes/acp/acp_codebox_plus.php" to="includes/acp/acp_codebox_plus.php" />
+			<file from="root/includes/acp/info/acp_codebox_plus.php" to="includes/acp/info/acp_codebox_plus.php" />
+			<file from="root/includes/geshi/*.*" to="includes/geshi/*.*" />
+			<file from="root/includes/hooks/hook_codebox_plus.php" to="includes/hooks/hook_codebox_plus.php" />
+			<file from="root/language/en/mods/codebox_plus_lang.php" to="language/en/mods/codebox_plus_lang.php" />
+			<file from="root/language/en/mods/info_acp_codebox_plus.php" to="language/en/mods/info_acp_codebox_plus.php" />
+			<file from="root/styles/prosilver/template/mods/code_downloader.html" to="styles/prosilver/template/mods/code_downloader.html" />
+			<file from="root/styles/prosilver/template/mods/codebox_plus_buttons.html" to="styles/prosilver/template/mods/codebox_plus_buttons.html" />
+			<file from="root/umil/*.*" to="umil/*.*" />
+		</copy>
+		
+		<open src="language/en/common.php">
+			<edit>
+				<find><![CDATA[	'CODEBOX_PLUS_DEFAULT_FILENAME'			=> 'Untitled.txt',]]></find>
+				<action type="replace-with"><![CDATA[	'CODEBOX_PLUS_DEFAULT_FILENAME'			=> 'Untitled',]]></action>
+			</edit>
+		</open>
+		
+		<open src="includes/bbcode.php">
+			<edit>
+				<find><![CDATA[<strong title="phpBB Codebox Plus">&copy;</strong>]]></find>
+				<action type="replace-with"><![CDATA[&copy; <a href="https://www.phpbb.com/customise/db/mod/codebox_plus/">Codebox Plus</a>]]></action>
+			</edit>
+			<edit>
+				<find><![CDATA[<strong title="phpBB Codebox Plus">&copy;</strong>]]></find>
+				<action type="replace-with"><![CDATA[&copy; <a href="https://www.phpbb.com/customise/db/mod/codebox_plus/">Codebox Plus</a>]]></action>
+			</edit>
+			<edit>
+				<find><![CDATA[<strong title="phpBB Codebox Plus">&copy;</strong>]]></find>
+				<action type="replace-with"><![CDATA[&copy; <a href="https://www.phpbb.com/customise/db/mod/codebox_plus/">Codebox Plus</a>]]></action>
+			</edit>
+		</open>
+
+		<php-installer><![CDATA[install_codebox_plus.php]]></php-installer>
+		<diy-instructions lang="en"><![CDATA[Delete the installer (install_codebox_plus.php) after the installation.]]></diy-instructions>
+	</action-group>
+</mod>

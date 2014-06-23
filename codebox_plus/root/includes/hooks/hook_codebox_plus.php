@@ -2,7 +2,7 @@
 /**
 *
 * @package Codebox Plus
-* @version 1.1.1 of 22.03.2013
+* @version 1.1.4 of 02.06.2014
 * @copyright (c) 2012 o0johntam0o - o0johntam0o@gmail.com
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
@@ -28,8 +28,17 @@ function codebox_plus_hook()
 	$codebox_plus_enabled = isset($config['codebox_plus_enable']) ? $config['codebox_plus_enable'] : 0;
 	$download_enabled = isset($config['codebox_plus_download']) ? $config['codebox_plus_download'] : 0;
 
-	if (!$codebox_plus_enabled || !$download_enabled)
+	if (!$codebox_plus_enabled)
 	{
+		return;
+	}
+	
+	if (!$download_enabled)
+	{
+		$template->assign_vars(array(
+			'S_CODEBOX_PLUS_LOADED'			=> true,
+		));
+		
 		return;
 	}
 	
