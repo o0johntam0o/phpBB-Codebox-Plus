@@ -40,6 +40,7 @@
 				<date>2014-06-02</date>
 				<rev-version>1.1.4</rev-version>
 				<changelog lang="en">
+					<change><![CDATA[Add: "Select all" in SubSilver2]]></change>
 					<change><![CDATA[Fix: A small issue with the option "Download feature" disabled]]></change>
 				</changelog>
 			</entry>
@@ -156,11 +157,11 @@
 					
 					if (isset($config['codebox_plus_download']) && $config['codebox_plus_download'] == 1)
 					{
-						$tpl_codebox_plus_open = '<div><div class="codetitle"><b>{L_CODE}:</b> <a href="#" onclick="ShowHideCodebox(this); return false;">[{L_CODEBOX_PLUS_EXPAND}/{L_CODEBOX_PLUS_COLLAPSE}]</a> <a class="CodeboxPlus_Censor_123_abc_xyz_890" href="#">[{L_CODEBOX_PLUS_DOWNLOAD}]</a> ({FILE_NAME})</div><div class="codecontent">';
+						$tpl_codebox_plus_open = '<div><div class="codetitle"><b>{L_CODE}:</b> <a href="#" onclick="selectCodebox(this); return false;">[{L_SELECT_ALL_CODE}]</a> <a href="#" onclick="ShowHideCodebox(this); return false;">[{L_CODEBOX_PLUS_EXPAND}/{L_CODEBOX_PLUS_COLLAPSE}]</a> <a class="CodeboxPlus_Censor_123_abc_xyz_890" href="#">[{L_CODEBOX_PLUS_DOWNLOAD}]</a> ({FILE_NAME})</div><div class="codecontent">';
 					}
 					else
 					{
-						$tpl_codebox_plus_open = '<div><div class="codetitle"><b>{L_CODE}:</b> <a href="#" onclick="ShowHideCodebox(this); return false;">[{L_CODEBOX_PLUS_EXPAND}/{L_CODEBOX_PLUS_COLLAPSE}]</a></div><div class="codecontent">';
+						$tpl_codebox_plus_open = '<div><div class="codetitle"><b>{L_CODE}:</b> <a href="#" onclick="selectCodebox(this); return false;">[{L_SELECT_ALL_CODE}]</a> <a href="#" onclick="ShowHideCodebox(this); return false;">[{L_CODEBOX_PLUS_EXPAND}/{L_CODEBOX_PLUS_COLLAPSE}]</a></div><div class="codecontent">';
 					}
 					
 				break;

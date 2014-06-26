@@ -59,6 +59,14 @@
 				<action type="replace-with"><![CDATA[&copy; <a href="https://www.phpbb.com/customise/db/mod/codebox_plus/">Codebox Plus</a>]]></action>
 			</edit>
 			<edit>
+				<find><![CDATA[<div><div class="codetitle"><b>{L_CODE}:</b>]]></find>
+				<action type="replace-with"><![CDATA[<div><div class="codetitle"><b>{L_CODE}:</b> <a href="#" onclick="selectCodebox(this); return false;">[{L_SELECT_ALL_CODE}]</a>]]></action>
+			</edit>
+			<edit>
+				<find><![CDATA[<div><div class="codetitle"><b>{L_CODE}:</b>]]></find>
+				<action type="replace-with"><![CDATA[<div><div class="codetitle"><b>{L_CODE}:</b> <a href="#" onclick="selectCodebox(this); return false;">[{L_SELECT_ALL_CODE}]</a>]]></action>
+			</edit>
+			<edit>
 				<find><![CDATA[<strong title="phpBB Codebox Plus">&copy;</strong>]]></find>
 				<action type="replace-with"><![CDATA[&copy; <a href="https://www.phpbb.com/customise/db/mod/codebox_plus/">Codebox Plus</a>]]></action>
 			</edit>

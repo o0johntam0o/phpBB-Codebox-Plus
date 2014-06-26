@@ -45,6 +45,17 @@
 			<file from="root/styles/prosilver/template/mods/codebox_plus_buttons.html" to="styles/prosilver/template/mods/codebox_plus_buttons.html" />
 			<file from="root/umil/*.*" to="umil/*.*" />
 		</copy>
+		
+		<open src="includes/bbcode.php">
+			<edit>
+				<find><![CDATA[<div><div class="codetitle"><b>{L_CODE}:</b>]]></find>
+				<action type="replace-with"><![CDATA[<div><div class="codetitle"><b>{L_CODE}:</b> <a href="#" onclick="selectCodebox(this); return false;">[{L_SELECT_ALL_CODE}]</a>]]></action>
+			</edit>
+			<edit>
+				<find><![CDATA[<div><div class="codetitle"><b>{L_CODE}:</b>]]></find>
+				<action type="replace-with"><![CDATA[<div><div class="codetitle"><b>{L_CODE}:</b> <a href="#" onclick="selectCodebox(this); return false;">[{L_SELECT_ALL_CODE}]</a>]]></action>
+			</edit>
+		</open>
 
 		<php-installer><![CDATA[install_codebox_plus.php]]></php-installer>
 		<diy-instructions lang="en"><![CDATA[Delete the installer (install_codebox_plus.php) after the installation.]]></diy-instructions>
