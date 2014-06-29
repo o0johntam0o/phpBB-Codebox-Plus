@@ -46,6 +46,19 @@ if ($enable_prevent_bots && $user->data['is_bot'])
 {
 	redirect(append_sid("{$phpbb_root_path}index.$phpEx"));
 }
+// Check permission
+if($mode == '')
+{
+	$sql = 'SELECT forum_id FROM ' . POSTS_TABLE . ' WHERE post_id = ' . $id;
+	$result = $db->sql_query($sql);
+	$row = $db->sql_fetchrow($result);
+	$db->sql_freeresult($result);
+	
+	if (!$auth->acl_get('f_read', $row['forum_id']))
+	{
+		trigger_error($user->lang['CODEBOX_PLUS_ERROR_NO_PERMISSION']);
+	}
+}
 // Login to download...
 if ($enable_login_required && !$user->data['is_registered'])
 {
